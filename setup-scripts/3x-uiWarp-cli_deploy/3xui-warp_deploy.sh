@@ -161,3 +161,4 @@ docker compose -f "${XUI_COMPOSE_FILE}" restart
 log "3x-ui container restarted"
 
 log "3x-ui with warp-cli containers deployment finished!\n\n3x-ui running with outer ${HTTPS_OUT_PORT} https port, ${PANEL_PORT} panel port\n"
+log "Full log available at: ${LOG_FILE}"
