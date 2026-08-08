@@ -22,15 +22,16 @@ SSH_GROUP="${3:-sshusers}"
 PANEL_PORT=2087
 HTTPS_OUT_PORT=2083
 
+HOME_DIR="/root"
 UPPER_DIR="$(dirname "$0")"/..
 
 GIT_XUI_SOURCES_URL="https://github.com/georgiyCJDEV/3x-ui_warp-cli_docker.git"
-XUI_SOURCES_GIT="${UPPER_DIR}/packages/3x-ui"
+XUI_SOURCES_GIT="${HOME_DIR}/packages/3x-ui"
 XUI_COMPOSE_FILE="${XUI_SOURCES_GIT}/docker-compose.yml"
 DOCKER_ENV="${XUI_SOURCES_GIT}/.env"
 
-WARP_VOLUME="${UPPER_DIR}/docker_volumes/3x-ui/warp-data"
-XUI_VOLUME="${UPPER_DIR}/docker_volumes/3x-ui/3x-ui-data"
+WARP_VOLUME="${HOME_DIR}/docker_volumes/3x-ui/warp-data"
+XUI_VOLUME="${HOME_DIR}/docker_volumes/3x-ui/3x-ui-data"
 
 XUI_CERT_DIR="${XUI_VOLUME}/cert"
 XUI_DB_DIR="${XUI_VOLUME}/db"
