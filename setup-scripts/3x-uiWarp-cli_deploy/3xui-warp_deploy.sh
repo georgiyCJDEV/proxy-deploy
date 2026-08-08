@@ -72,9 +72,13 @@ if [[ ! -f ${XUI_DB} ]]; then
 fi
 
 log "--- Downloading 3xui + warp_cli containers sources to ${XUI_SOURCES_GIT} ---"
-# Cloning 3x-ui + warp container sources
 if [[ -d "${XUI_SOURCES_GIT}/.git" ]]; then
+    log "Repository exists, pulling latest changes..."
     git -C "${XUI_SOURCES_GIT}" pull origin master
+elif [[ -d "${XUI_SOURCES_GIT}" && "$(ls -A "${XUI_SOURCES_GIT}")" ]]; then
+    log "WARNING: ${XUI_SOURCES_GIT} exists but is not a git repo, removing..."
+    rm -rf "${XUI_SOURCES_GIT}"
+    git clone -b master --single-branch "${GIT_XUI_SOURCES_URL}" "${XUI_SOURCES_GIT}"
 else
     git clone -b master --single-branch "${GIT_XUI_SOURCES_URL}" "${XUI_SOURCES_GIT}"
 fi
