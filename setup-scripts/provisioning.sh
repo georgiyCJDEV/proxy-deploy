@@ -270,14 +270,27 @@ if [[ "${SSH_PORT}" != "${DEFAULT_SSH_PORT}" ]]; then
 
     # Close default ssh port in firewall
     if command -v firewall-cmd &>/dev/null; then
-        log "Closing port '${DEFAULT_SSH_PORT}' in firewall"
-        if firewall-cmd --list-ports | grep -qE "\b${DEFAULT_SSH_PORT}/tcp\b"; then
-            firewall-cmd --permanent --remove-port=${DEFAULT_SSH_PORT}/tcp
+       CHANGED=false
+
+        # Removing service ssh from firewall (port 22)
+        if firewall-cmd --list-services | grep -qw "ssh"; then
             firewall-cmd --permanent --remove-service=ssh
+            log "Firewall: removed service 'ssh'"
+            CHANGED=true
+        fi
+
+        # Removing port 22 from ssh
+        if firewall-cmd --list-ports | grep -qE "\b${DEFAULT_SSH_PORT}/tcp\b"; then
+            firewall-cmd --permanent --remove-port="${DEFAULT_SSH_PORT}/tcp"
+            log "Firewall: removed port ${DEFAULT_SSH_PORT}/tcp"
+            CHANGED=true
+         fi
+
+        if [[ "${CHANGED}" == "true" ]]; then
             firewall-cmd --reload
-            log "Firewall: closed port ${DEFAULT_SSH_PORT}/tcp"
+            log "Firewall: reloaded after closing default SSH"
         else
-            log "Firewall: port ${DEFAULT_SSH_PORT}/tcp already closed"
+            log "Firewall: default SSH already closed"
         fi
     fi
 fi
