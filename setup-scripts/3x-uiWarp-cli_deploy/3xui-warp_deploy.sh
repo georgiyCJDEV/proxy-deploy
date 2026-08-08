@@ -49,7 +49,7 @@ log "--- Provisioning script finished ---"
 
 log "--- Installing sqlite package ---"
 # For managing x-ui.db
-dnf install sqlite
+dnf install sqlite -y
 
 log "--- Preparing volume directories ---"
 # Making directories for 3x-ui volumes
