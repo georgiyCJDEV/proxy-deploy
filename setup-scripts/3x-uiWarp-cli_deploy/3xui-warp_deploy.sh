@@ -99,7 +99,7 @@ PANEL_PORT=${PANEL_PORT}
 HTTPS_OUT_PORT=${HTTPS_OUT_PORT}
 
 # Warp volume
-WARP_DATA=${WARP_VOLUME}/warp-data/
+WARP_DATA=${WARP_VOLUME}
 EOF
 log ".env file created in ${XUI_SOURCES_GIT}"
 
