@@ -137,8 +137,8 @@ SQL_UPDATE_FILE="$(dirname "$0")/update-xui-settings.sql"
 log "Configuring 3x-ui panel settings via SQLite transaction..."
 if ! sqlite3 "${XUI_DB}" \
     -cmd ".param set :webPort ${PANEL_PORT}" \
-    -cmd ".param set :certFile /root/cert/panel.crt" \
-    -cmd ".param set :keyFile /root/cert/panel.key" \
+    -cmd ".param set :certFile ${PANEL_CERT}" \
+    -cmd ".param set :keyFile ${PANEL_KEY}" \
     < "${SQL_UPDATE_FILE}"; then
         log "ERROR: Failed to update 3x-ui settings in SQLite"
         exit 1
