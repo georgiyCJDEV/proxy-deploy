@@ -70,7 +70,7 @@ if [[ ! -f ${XUI_DB} ]]; then
     cp "${XUI_BASE_DB}" "${XUI_DB_DIR}"
     log "--- Prepared base x-ui.db file: ${XUI_DB} ---"
 else
-    log "--- x-ui.db file already exists: ${XUI_DB} ---"
+    log "--- x-ui.db file already exists: $(ls -la ${XUI_DB_DIR}) ---"
 fi
 
 log "--- Downloading 3xui + warp_cli containers sources to ${XUI_SOURCES_GIT} ---"
