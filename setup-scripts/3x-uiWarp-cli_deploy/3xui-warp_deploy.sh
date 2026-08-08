@@ -19,7 +19,7 @@ SSH_PORT="${2:-22}"
 SSH_GROUP="${3:-sshusers}"
 
 #Constants
-PANEL_PORT=2087
+PANEL_PORT=10000
 HTTPS_OUT_PORT=2083
 
 XUI_NETWORK_NAME="3xui-net"
@@ -150,4 +150,4 @@ log "Restarting 3x-ui container to apply new settings..."
 docker compose -f "${XUI_COMPOSE_FILE}" restart
 log "3x-ui container restarted"
 
-log "3x-ui with warp-cli containers deployment finished!\n\n3x-ui running with outer 2083 https port, 2087 panel port\n"
+log "3x-ui with warp-cli containers deployment finished!\n\n3x-ui running with outer ${HTTPS_OUT_PORT} https port, ${PANEL_PORT} panel port\n"
