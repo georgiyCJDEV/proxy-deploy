@@ -237,7 +237,7 @@ SSHD_CONFIG_DUMP="$(sshd -T)"
 
 #Verify ssh port
 PORT_ACTUAL="$(echo "${SSHD_CONFIG_DUMP}" | awk '$1 == "port" {print $2; exit}')"
-if [[ "${PORT_ACTUAL}" != "${SSH_PORT}" ]]; then
+if [[ "${SSH_PORT}" != "${DEFAULT_SSH_PORT}" && "${PORT_ACTUAL}" != "${SSH_PORT}" ]]; then
     log "ERROR: SSH port is ${PORT_ACTUAL}, expected ${SSH_PORT}"
     exit 1
 fi
