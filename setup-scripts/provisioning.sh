@@ -273,6 +273,7 @@ if [[ "${SSH_PORT}" != "${DEFAULT_SSH_PORT}" ]]; then
         log "Closing port '${DEFAULT_SSH_PORT}' in firewall"
         if firewall-cmd --list-ports | grep -qE "\b${DEFAULT_SSH_PORT}/tcp\b"; then
             firewall-cmd --permanent --remove-port=${DEFAULT_SSH_PORT}/tcp
+            firewall-cmd --permanent --remove-service=ssh
             firewall-cmd --reload
             log "Firewall: closed port ${DEFAULT_SSH_PORT}/tcp"
         else
