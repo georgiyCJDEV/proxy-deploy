@@ -147,10 +147,12 @@ done
 log "Found x-ui.db at ${XUI_DB}"
 
 log "Configuring 3x-ui panel settings via SQLite transaction..."
+CERT_IN_CONTAINER="/root/cert/panel.crt"
+KEY_IN_CONTAINER="/root/cert/panel.key"
 if ! sqlite3 "${XUI_DB}" \
     -cmd ".param set :webPort ${PANEL_PORT}" \
-    -cmd ".param set :certFile ${PANEL_CERT}" \
-    -cmd ".param set :keyFile ${PANEL_KEY}" \
+    -cmd ".param set :certFile ${CERT_IN_CONTAINER}" \
+    -cmd ".param set :keyFile ${KEY_IN_CONTAINER}" \
     < "${SQL_UPDATE_FILE}"; then
         log "ERROR: Failed to update 3x-ui settings in SQLite"
         exit 1
