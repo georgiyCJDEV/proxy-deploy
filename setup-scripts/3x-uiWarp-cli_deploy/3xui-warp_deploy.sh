@@ -41,7 +41,7 @@ PANEL_KEY="${XUI_CERT_DIR}/panel.key"
 log "--- Running provisioning script... ---"
 # Running overprovisioning system setup script
 "${UPPER_DIR}/provisioning.sh" "${USER_NAME}" "${SSH_PORT}" "${SSH_GROUP}" || {
-    echo "ERROR: init-sys.sh failed, aborting deploy"
+    echo "ERROR: ${UPPER_DIR}/provisioning.sh failed, aborting deploy"
     exit 1
 }
 log "--- Provisioning script finished ---"
