@@ -22,6 +22,8 @@ SSH_GROUP="${3:-sshusers}"
 PANEL_PORT=2087
 HTTPS_OUT_PORT=2083
 
+XUI_NETWORK_NAME="3xui-net"
+
 HOME_DIR="/root"
 UPPER_DIR="$(dirname "$0")"/..
 
@@ -80,11 +82,21 @@ DB=${XUI_DB_DIR}
 CERT=${XUI_CERT_DIR}
 PANEL_PORT=${PANEL_PORT}
 HTTPS_OUT_PORT=${HTTPS_OUT_PORT}
+XUI_NETWORK_NAME=${XUI_NETWORK_NAME}
 
 # Warp volume
 WARP_DATA=${WARP_VOLUME}/warp-data/
 EOF
 log ".env file created in ${XUI_SOURCES_GIT}"
+
+# Creating network for 3x-ui containers
+if ! docker network inspect "${XUI_NETWORK_NAME}" &>/dev/null; then
+    log "Creating Docker network '${XUI_NETWORK_NAME}'..."
+    docker network create "${XUI_NETWORK_NAME}"
+    log "Docker network '${XUI_NETWORK_NAME}' created"
+else
+    log "Docker network '${XUI_NETWORK_NAME}' already exists"
+fi
 
 log "Running docker compose for 3xui and warp-cli containers"
 # Building and starting containers
