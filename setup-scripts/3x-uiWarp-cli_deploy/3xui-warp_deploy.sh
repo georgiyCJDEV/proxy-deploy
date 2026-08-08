@@ -27,6 +27,9 @@ XUI_NETWORK_NAME="3xui-net"
 HOME_DIR="/root"
 UPPER_DIR="$(dirname "$0")"/..
 
+SQL_UPDATE_FILE="$(dirname "$0")/update-xui-settings.sql"
+XUI_BASE_DB="$(dirname "$0")/x-ui.db"
+
 GIT_XUI_SOURCES_URL="https://github.com/georgiyCJDEV/3x-ui_warp-cli_docker.git"
 XUI_SOURCES_GIT="${HOME_DIR}/packages/3x-ui"
 XUI_COMPOSE_FILE="${XUI_SOURCES_GIT}/docker-compose.yml"
@@ -61,6 +64,12 @@ mkdir -p "${XUI_SOURCES_GIT}"
 mkdir -p "${XUI_CERT_DIR}"
 mkdir -p "${XUI_DB_DIR}"
 log "--- Directories for volumes created ---"
+
+# Preparing base x-ui.db
+if [[ ! -f ${XUI_DB} ]]; then
+  cp "${XUI_BASE_DB}" "${XUI_DB_DIR}"
+  log "--- Prepared base x-ui.db file ---"
+fi
 
 log "--- Downloading 3xui + warp_cli containers sources to ${XUI_SOURCES_GIT} ---"
 # Cloning 3x-ui + warp container sources
@@ -130,9 +139,6 @@ while [[ ! -f "${XUI_DB}" ]]; do
     fi
 done
 log "Found x-ui.db at ${XUI_DB}"
-
-# Путь к SQL-файлу (рядом с deploy.sh)
-SQL_UPDATE_FILE="$(dirname "$0")/update-xui-settings.sql"
 
 log "Configuring 3x-ui panel settings via SQLite transaction..."
 if ! sqlite3 "${XUI_DB}" \
