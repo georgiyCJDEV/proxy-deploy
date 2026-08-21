@@ -112,11 +112,6 @@ else
     log "Docker network '${XUI_NETWORK_NAME}' already exists"
 fi
 
-log "Running docker compose for 3xui and warp-cli containers"
-# Building and starting containers
-docker compose -f "${XUI_COMPOSE_FILE}" up -d
-log "Containers started"
-
 # Generating tls cert and key
 if [[ ! -f "${PANEL_CERT}" || ! -f "${PANEL_KEY}" ]]; then
     log "Generating self-signed TLS certificate for 3x-ui panel..."
@@ -146,7 +141,7 @@ while [[ ! -f "${XUI_DB}" ]]; do
 done
 log "Found x-ui.db at ${XUI_DB}"
 
-log "Configuring 3x-ui panel settings via SQLite transaction..."
+log "Configuring 3x-ui panel settings via SQLite..."
 CERT_IN_CONTAINER="/root/cert/panel.crt"
 KEY_IN_CONTAINER="/root/cert/panel.key"
 if ! sqlite3 "${XUI_DB}" \
@@ -158,6 +153,12 @@ if ! sqlite3 "${XUI_DB}" \
         exit 1
 fi
 log "3x-ui panel settings updated successfully"
+log "Starting containers..."
+
+log "Running docker compose for 3xui and warp-cli containers"
+# Building and starting containers
+docker compose -f "${XUI_COMPOSE_FILE}" up -d
+log "Containers started"
 
 # Restarting containers to apply changes
 log "Restarting 3x-ui container to apply new settings..."
